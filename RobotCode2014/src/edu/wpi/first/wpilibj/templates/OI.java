@@ -4,12 +4,17 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.templates.commands.CenterOnBall;
+import edu.wpi.first.wpilibj.templates.commands.ToggleBallFollowing;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+    
+    private CenterOnBall cob = new CenterOnBall();
     private static final int JOYSTICK_PORT = 1;
     //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
@@ -17,7 +22,8 @@ public class OI {
     // number it is.
     Joystick joystick = new Joystick(JOYSTICK_PORT);
     // Button button = new JoystickButton(stick, buttonNumber);
-    
+    Button button;
+    Button followBall;
     // Another type of button you can create is a DigitalIOButton, which is
     // a button or switch hooked up to the cypress module. These are useful if
     // you want to build a customized operator interface.
@@ -42,6 +48,13 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
+
+    public OI() {
+        button = new JoystickButton(joystick, 4);
+        button.whenPressed(new ToggleBallFollowing());
+        followBall = new JoystickButton(joystick, 1);
+        followBall.whenPressed(new CenterOnBall());
+    }
     
     
     //Returns the joystick that controls driving
